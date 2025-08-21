@@ -6,13 +6,15 @@ async function registerUser(userData){
     return result.rows[0];
 }
 
-async function login(userData){
-    const {email, password} = userData;
-    const result = await pool.query("SELECT * FROM users WHERE email = $1 AND password = $2", [email,password]);
+async function loginUser(userData){
+    const {email} = userData;
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    if(result.rows.length === 0)
+        return null;
     return result.rows[0];
 }
 
 module.exports = {
     registerUser,
-    login
+    loginUser
 };
